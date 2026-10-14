@@ -727,4 +727,17 @@ _(I attached two images: the expected `hw4/` file layout, and the local-only `da
 
 > yes do option 1 and make note of how he can easily access to the site to see it by providing the link to it in the package
 
-**What the AI did:** _(in progress)_
+**What the AI did:**
+- **Checked the repo was safe to publish with GitHub Pages.** No `{{`/`{%` template text in any Markdown or HTML file, so it builds as-is with no extra files that would change the expected layout.
+- **Added a "👀 See it online (no setup needed)" section at the top of `README.md`,** with links to:
+  - the **live App check page**;
+  - the project home page;
+  - the harness, usability and design docs;
+  - the prompt log;
+  - the screenshots folder.
+- **Added links back to the code** ("View the code on GitHub", "How to run it", "How the system works") in the `app_check.html` header.
+- **Turned on GitHub Pages** (the `main` branch, from the root) and set the repo's website link to the App check page, so it also shows at the top right of the GitHub repo page.
+- **Verified the live site:**
+  - **https://rscrivano.github.io/hw4/output/app_check.html** is live: all 14 checks and **14/14 screenshots** load.
+  - https://rscrivano.github.io/hw4/ shows the README as a web page.
+- **Fixed a layout issue found on the live page:** the summary table was 8px too wide on phones, so on small screens it now uses tighter padding and hides the "Area" column.

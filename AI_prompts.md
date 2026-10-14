@@ -679,4 +679,34 @@ _(added as I go)_
 
 _(I attached two images: the expected `hw4/` file layout, and the local-only `data/` pack: `campus_customs.db` and `products/`.)_
 
-**What the AI did:** _(in progress)_
+**What the AI did:**
+- **Checked before publishing:**
+  - Scanned every file that would be committed for the real secret values in `.env` (`PORTKEY_API_KEY`, `SESSION_SECRET`, `STAFF_KEY`, the demo password). None were found.
+  - Found that `output/database_overview.html` listed real people from the provided `users` table (names and Yale emails). Changed `scripts/analyze_db.py` to show initials and masked emails, and regenerated the page.
+- **Matched the expected layout:**
+  - Moved `requirements.txt` to the repo root.
+  - The agent is 4 files under `backend/`: `prompts/prompt.md`, `agent.py`, `tools.py`, `models.py`.
+  - `main.py` runs with `uvicorn main:app --reload`, alongside supporting modules `auth.py`, `db.py`, `shop.py` and `audit.py`.
+  - `output/` has `harness.md`, `design.md`, `usability.md`, `app_check.html`, `app_check_images/` and `audit_trail.json`.
+- **`.gitignore` excludes:**
+  - `data/` and `*.db` (the database and product images);
+  - `.env`;
+  - `.venv`, `node_modules`, `dist`;
+  - audit-trail temp files.
+- **`.env.example`** now has clear placeholders only, such as `your-portkey-api-key-here`.
+- **Rewrote `README.md`.** It covers the repo layout, **placing the data pack** in `data/`, one-time setup, running the **backend** (`cd backend` → `uvicorn main:app --reload --port 8000`) and the **frontend** (`cd frontend` → `npm run dev` → http://localhost:5173), the checks, the API and security notes.
+- **Published:**
+  - `git init` → one commit (122 files, about 3 MB) → created the **public** GitHub repo **https://github.com/rscrivano/hw4** with `gh` → pushed `main`.
+  - Cloning it creates a folder named **`hw4`**.
+- **Verified from a fresh clone of GitHub:**
+  - The layout matches the expected tree.
+  - There's no `.env`, `data/` or `.db` in the repo.
+  - After placing the data pack, `git status` stayed clean, which confirms `data/` is ignored.
+  - A fresh venv from `requirements.txt` installed.
+  - `uvicorn main:app --reload` from `backend/` started.
+  - `/api/health` was OK, `/api/products` returned 102, images loaded, and the chat answered "25 left in XXL" (matching the database).
+  - The frontend ran `npm install` and `npm run build` successfully.
+  - The temporary clone, venv and server were removed afterwards.
+- **Note:** a very deep temp path hit Windows' 260-character limit during `pip install`, so a "clone into a short path" tip was added to the README.
+
+**Repo URL to submit:** https://github.com/rscrivano/hw4

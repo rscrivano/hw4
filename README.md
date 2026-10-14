@@ -82,6 +82,8 @@ Then edit **`.env`**:
 On macOS or Linux, use `source .venv/bin/activate`, `pip install -r requirements.txt` and `cp .env.example .env` instead.
 
 > **OneDrive or Dropbox users:** pause syncing while creating `.venv` and running `npm install`.
+>
+> **Windows:** clone into a short path (e.g. `C:\code\hw4`). Very deep folders can hit the 260-character path limit during `pip install`.
 
 ## 3. Run the backend (terminal 1)
 

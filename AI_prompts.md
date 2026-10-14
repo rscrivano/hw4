@@ -710,3 +710,9 @@ _(I attached two images: the expected `hw4/` file layout, and the local-only `da
 - **Note:** a very deep temp path hit Windows' 260-character limit during `pip install`, so a "clone into a short path" tip was added to the README.
 
 **Repo URL to submit:** https://github.com/rscrivano/hw4
+
+#### Prompt 13.2
+
+> show me the actual site now too
+
+**What the AI did:** Checked that both servers were running, then opened http://localhost:5173 in my browser and in the browser pane.

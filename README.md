@@ -6,6 +6,19 @@ A customer website for **Campus Customs** (officially licensed Yale apparel). Sh
 - chat with **Handsome Dan**, a PydanticAI agent that answers price and stock questions from the store's SQLite database and puts matching items on the page;
 - add items to a cart and check out as a guest or member, then track the order.
 
+## 👀 See it online (no setup needed)
+
+The live site runs locally: it needs the course data pack and a Portkey key (see "Run" below). To **see what was built without installing anything**, open:
+
+| Link | What you'll see |
+|---|---|
+| **[App check: the site in action](https://rscrivano.github.io/hw4/output/app_check.html)** | 14 checks with screenshots of the running site: chatbot inventory and price answers, dynamic search-result cards, cart and fly-to-cart bubble, guest checkout, order confirmation, bark and growl sound effects, recommendations, and the restock list |
+| [Project home page](https://rscrivano.github.io/hw4/) | This README as a web page |
+| [How the system works (harness)](https://github.com/rscrivano/hw4/blob/main/output/harness.md) | Architecture, model fields, tools, safety rules, specs, audit trail |
+| [Usability improvements](https://github.com/rscrivano/hw4/blob/main/output/usability.md) · [Interactive design](https://github.com/rscrivano/hw4/blob/main/output/design.md) | Problems 9 and 10 write-ups |
+| [Prompt log](https://github.com/rscrivano/hw4/blob/main/AI_prompts.md) | Every prompt used to build the project |
+| [Screenshots folder](https://github.com/rscrivano/hw4/tree/main/output/screenshots) | All screenshots from Problems 3–12 |
+
 | | |
 |---|---|
 | **Frontend** | React + Vite + TypeScript (`frontend/`) |

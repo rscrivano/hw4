@@ -716,3 +716,15 @@ _(I attached two images: the expected `hw4/` file layout, and the local-only `da
 > show me the actual site now too
 
 **What the AI did:** Checked that both servers were running, then opened http://localhost:5173 in my browser and in the browser pane.
+
+#### Prompt 13.3
+
+> does this site come up through my assignment submission url so the professor can see what I created?
+
+**What the AI did:** Explained that the GitHub URL shows the code and documents, not a running site. The live site needs the data pack and a Portkey key on a local machine. It suggested publishing `app_check.html` with GitHub Pages so the professor can click through the screenshots.
+
+#### Prompt 13.4
+
+> yes do option 1 and make note of how he can easily access to the site to see it by providing the link to it in the package
+
+**What the AI did:** _(in progress)_

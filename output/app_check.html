@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campus Customs App Check</title>
+<style>
+  :root {
+    --bg: #fff8f1; --card: #fff; --line: #f0e2d6; --text: #13213f; --muted: #5d6880;
+    --yale: #00356b; --pink: #e0176f; --pink-soft: #ffe3ef; --ok: #0f8a5f; --ok-soft: #d8f6f2; --sun: #ffc93c;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 system-ui, "Segoe UI", Roboto, sans-serif; }
+  header { background: linear-gradient(120deg, var(--yale), #1d5aa8 70%, #7a5cff); color: #fff; padding: 28px 16px; }
+  header .wrap, main { max-width: 1040px; margin: 0 auto; }
+  main { padding: 0 16px 60px; }
+  h1 { margin: 0 0 6px; font-size: clamp(26px, 4vw, 38px); }
+  header p { margin: 0; color: #dfe9fb; }
+  h2 { color: var(--yale); margin: 40px 0 6px; font-size: 24px; border-bottom: 4px solid var(--sun); padding-bottom: 6px; }
+  .section-intro { color: var(--muted); margin: 0 0 16px; }
+  .note { background: var(--card); border: 2px solid var(--line); border-left: 6px solid var(--pink); border-radius: 12px; padding: 12px 16px; margin: 20px 0; font-size: 15px; }
+  table.summary { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; font-size: 15px; }
+  table.summary th, table.summary td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+  table.summary th { background: var(--yale); color: #fff; }
+  table.summary a { color: var(--pink); font-weight: 700; text-decoration: none; }
+  .pass { display: inline-block; background: var(--ok-soft); color: var(--ok); font-weight: 800; border-radius: 999px; padding: 1px 10px; font-size: 13px; white-space: nowrap; }
+  .check { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 24px; align-items: start;
+    background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 18px; margin: 18px 0;
+    box-shadow: 0 8px 24px rgba(19, 33, 63, .07); scroll-margin-top: 12px; }
+  .check h3 { margin: 0 0 8px; color: var(--yale); font-size: 20px; }
+  .check img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); display: block; }
+  .check figure { margin: 0; }
+  .check figcaption { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .proves { background: var(--pink-soft); border-radius: 12px; padding: 12px 14px; margin: 10px 0; }
+  .proves b { color: var(--pink); }
+  .detail { font-size: 14px; color: var(--muted); margin: 8px 0 0; }
+  code { background: #f6efe8; padding: 1px 5px; border-radius: 5px; font-size: 13px; color: var(--yale); }
+  footer { text-align: center; color: var(--muted); font-size: 13px; padding: 20px; }
+  @media (max-width: 760px) { .check { grid-template-columns: 1fr; } .check figure { max-width: 380px; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Campus Customs: App Check</h1>
+    <p>Problem 11 · Live-site testing of the Handsome Dan chatbot, the dynamic search-result cards, and the shop's usability and interactive features (Problems 9–10).</p>
+  </div>
+</header>
+
+<main>
+  <div class="note">
+    <b>How these screenshots were taken:</b> the site was running locally (React + Vite on <code>localhost:5173</code>, FastAPI + PydanticAI agent on <code>localhost:8000</code>, model <code>gpt-5.6-terra</code> via Portkey). The checks were re-run in a phone-width browser and captured on 13 Oct 2026; check 10 reuses the screenshot of the real guest order placed during Problem 9. Every stock number and price was compared with <code>data/campus_customs.db</code> at the time of the test.
+  </div>
+
+  <h2 id="summary">Summary</h2>
+  <table class="summary">
+    <tr><th>#</th><th>Check</th><th>Area</th><th>Result</th></tr>
+    <tr><td>1</td><td><a href="#c1">Chatbot gives the exact inventory count for a size</a></td><td>Chatbot</td><td><span class="pass">PASS</span></td></tr>
+    <tr><td>2</td><td><a href="#c2">Chatbot reports a sold-out size and the real price</a></td><td>Chatbot</td><td><span class="pass">PASS</span></td></tr>
+    <tr><td>3</td><td><a href="#c3">Category question ("what hoodies are available?")</a></td><td>Search results</td><td><span class="pass">PASS</span></td></tr>
+    <tr><td>4</td><td><a href="#c4">Search results appear on the page as product cards</a></td><td>Search results</td><td><span class="pass">PASS</span></td></tr>
+    <tr><td>5</td><td><a href="#c5">Each card shows image, name, price and short info</a></td><td>Search results</td><td><span class="pass">PASS</span></td></tr>
+    <tr><td>6</td><td><a href="#c6">A chat result card opens the product detail page</a></td><td>Search results</td><td><span class="pass">PASS</span></td></tr>
+    <tr><td>7</td><td><a href="#c7">Add to cart: the photo bubble flies into the cart</a></td><td>Usability</td><td><span class="pass">PASS</span></td></tr>
+    <tr><td>8</td><td><a href="#c8">Cart page shows what the shopper is ordering</a></td><td>Usability</td><td><span class="pass">PASS</span></td></tr>
+    <tr><td>9</td><td><a href="#c9">Checkout works as a guest (no account)</a></td><td>Usability</td><td><span class="pass">PASS</span></td></tr>
+    <tr><td>10</td><td><a href="#c10">Guest order is placed and confirmed</a></td><td>Usability</td><td><span class="pass">PASS</span></td></tr>
+    <tr><td>11</td><td><a href="#c11">Handsome Dan barks when the logo is clicked</a></td><td>Sound effects</td><td><span class="pass">PASS</span></td></tr>
+    <tr><td>12</td><td><a href="#c12">Handsome Dan growls when an item is removed</a></td><td>Sound effects</td><td><span class="pass">PASS</span></td></tr>
+    <tr><td>13</td><td><a href="#c13">"Picked for you" recommendations from click history</a></td><td>Usability</td><td><span class="pass">PASS</span></td></tr>
+    <tr><td>14</td><td><a href="#c14">Low stock is added to the restock purchase list</a></td><td>Usability (business)</td><td><span class="pass">PASS</span></td></tr>
+  </table>
+
+  <!-- =============================== A. CHATBOT =============================== -->
+  <h2 id="chatbot">A. Chatbot conversation</h2>
+  <p class="section-intro">The shopper asks Handsome Dan specific questions. The answers must come from the live database, not be invented.</p>
+
+  <section class="check" id="c1">
+    <figure>
+      <img src="app_check_images/01_chat_inventory_count.jpg" alt="Chat reply: The Basic Hoodie Big Yale has 15 left in XS, with a Checked live stock badge and size chips">
+      <figcaption>Question: "How many Basic Hoodie Big Yale hoodies do you have left in size XS?"</figcaption>
+    </figure>
+    <div>
+      <h3>Check 1: Inventory count for a specific size <span class="pass">PASS</span></h3>
+      <div class="proves"><b>What this proves:</b> the chatbot answered "<b>15 left in XS</b>", exactly the quantity in the database's <code>inventory</code> table (XS = 15). The "✓ Checked live stock" badge shows it looked the number up with its <code>check_stock</code> tool instead of guessing.</div>
+      <p class="detail">The product card also shows every size's stock (XS ringed; S, M and L amber with 5 left; XL amber with 2; XXL in stock), which all match the database.</p>
+    </div>
+  </section>
+
+  <section class="check" id="c2">
+    <figure>
+      <img src="app_check_images/02_chat_sold_out_and_price.jpg" alt="Chat reply: Sorry, the Ice Hockey Left Chest Hoodie is sold out in M. It costs $68.00 and is available in XS, S, and XXL">
+      <figcaption>Question: "Is the Ice Hockey Left Chest Hoodie available in medium? How much is it?"</figcaption>
+    </figure>
+    <div>
+      <h3>Check 2: Sold-out size and price <span class="pass">PASS</span></h3>
+      <div class="proves"><b>What this proves:</b> the chatbot clearly says the item is <b>sold out in M</b> (database: M = 0) and gives the real price of <b>$68.00</b>, along with the sizes that are in stock (XS, S, XXL). The badges show it checked live stock and catalogue prices.</div>
+      <p class="detail">The card repeats "Size M: sold out" in red, so the shopper can't miss it.</p>
+    </div>
+  </section>
+
+  <!-- =============================== B. SEARCH RESULTS =============================== -->
+  <h2 id="search">B. Dynamic search-result cards</h2>
+  <p class="section-intro">A category question makes the agent search the catalogue and return structured matches. The website then draws these as product cards on the page.</p>
+
+  <section class="check" id="c3">
+    <figure>
+      <img src="app_check_images/03_chat_category_question.jpg" alt="Chat reply: I found 25 hoodies, ranging from $45.00 to $68.00. I've put the first 12 on the page, with a '12 hoodies are on the page · View' button">
+      <figcaption>Question: "what hoodies are available?"</figcaption>
+    </figure>
+    <div>
+      <h3>Check 3: Category question triggers a catalogue search <span class="pass">PASS</span></h3>
+      <div class="proves"><b>What this proves:</b> the agent searched the catalogue and summarized it accurately: <b>25 hoodies, $45.00–$68.00</b>, which matches the database's Hoodies category. It also tells the shopper the results are on the page, with a <b>"12 hoodies are on the page · View"</b> button.</div>
+      <p class="detail">The agent returns these matches in a structured <code>page_results</code> field (title, product ids, total). The backend turns those ids into full product cards from the database.</p>
+    </div>
+  </section>
+
+  <section class="check" id="c4">
+    <figure>
+      <img src="app_check_images/04_search_results_on_page.jpg" alt="Handsome Dan found: Hoodies. Showing 12 of 25, with See all 25 and Clear buttons and the first hoodie card">
+      <figcaption>After tapping "View": the results section at the top of the page.</figcaption>
+    </figure>
+    <div>
+      <h3>Check 4: Results appear on the page dynamically <span class="pass">PASS</span></h3>
+      <div class="proves"><b>What this proves:</b> without a page reload, the website added a "<b>Handsome Dan found: Hoodies · Showing 12 of 25</b>" section with product cards, built from the chat response. <b>See all 25</b> links to the full Hoodies category, and <b>Clear</b> removes the results.</div>
+    </div>
+  </section>
+
+  <section class="check" id="c5">
+    <figure>
+      <img src="app_check_images/05_search_result_card.jpg" alt="Result card: Crew Left Chest Hoodie photo, $68.00, short description, 1 size sold out">
+      <figcaption>One of the 12 result cards, scrolled into view.</figcaption>
+    </figure>
+    <div>
+      <h3>Check 5: Each card shows image, name, price and short info <span class="pass">PASS</span></h3>
+      <div class="proves"><b>What this proves:</b> each dynamic card has the product <b>photo</b>, <b>name</b> (Crew Left Chest Hoodie), <b>price</b> ($68.00), a <b>short description</b>, and a "1 size sold out" note. It uses the same card design as the Products page, so it looks appealing and consistent.</div>
+    </div>
+  </section>
+
+  <section class="check" id="c6">
+    <figure>
+      <img src="app_check_images/06_card_opens_detail_page.jpg" alt="Product detail page for the Crew Left Chest Hoodie with large image and a slim Dan's results bar above">
+      <figcaption>After clicking the card: <code>/products/crew-left-chest-hoodie</code></figcaption>
+    </figure>
+    <div>
+      <h3>Check 6: A chat card opens the single-item detail page <span class="pass">PASS</span></h3>
+      <div class="proves"><b>What this proves:</b> clicking a card that the chat put on the page opens the same product detail page built in Problem 3 (large image, full description, price, sizes and stock). The search results shrink to a slim "Dan's results: Hoodies (12) · Show" bar so the product stays in view.</div>
+    </div>
+  </section>
+
+  <!-- =============================== C. USABILITY + EFFECTS =============================== -->
+  <h2 id="usability">C. Usability features and interactive effects</h2>
+  <p class="section-intro">The cart, guest checkout, recommendations and restocking (Problem 9), plus the bark, fly-to-cart bubble and growl (Problem 10).</p>
+
+  <section class="check" id="c7">
+    <figure>
+      <img src="app_check_images/07_add_to_cart_bubble.jpg" alt="A round bubble with the hoodie photo flying into the cart icon, which shows 1; message: Added 1 × size XS to your cart">
+      <figcaption>Freeze-frame captured mid-flight, about 0.4 s after clicking "Add to cart".</figcaption>
+    </figure>
+    <div>
+      <h3>Check 7: Add to cart: the bubble flies into the cart <span class="pass">PASS</span></h3>
+      <div class="proves"><b>What this proves:</b> clicking <b>Add to cart</b> creates a round <b>bubble with the product's photo</b> that arcs into the 🛒 cart icon. The cart badge updates to <b>1</b> and the page confirms "✓ Added 1 × size XS to your cart."</div>
+      <p class="detail">The animation is skipped automatically for shoppers whose device asks for reduced motion. For this capture the normal setting was simulated, because the test browser has reduced motion turned on.</p>
+    </div>
+  </section>
+
+  <section class="check" id="c8">
+    <figure>
+      <img src="app_check_images/08_cart_page.jpg" alt="Your cart: Crew Left Chest Hoodie XS $68.00 and 2025 Yale vs Harvard T Shirt M $32.00, cart badge 2">
+      <figcaption>Clicking the cart icon opens <code>/cart</code>.</figcaption>
+    </figure>
+    <div>
+      <h3>Check 8: The cart shows what the shopper is ordering <span class="pass">PASS</span></h3>
+      <div class="proves"><b>What this proves:</b> the cart icon (badge <b>2</b>) opens a cart listing each item with its photo, <b>size</b>, price, a <b>quantity</b> selector and <b>Remove</b>. The order summary shows a subtotal of <b>$100.00</b> ($68 + $32), re-priced by the server from the database.</div>
+    </div>
+  </section>
+
+  <section class="check" id="c9">
+    <figure>
+      <img src="app_check_images/09_guest_checkout.jpg" alt="Checkout page: Checking out as a guest. No account needed. Full name, email, in-store pickup or ship">
+      <figcaption><code>/checkout</code> while logged out.</figcaption>
+    </figure>
+    <div>
+      <h3>Check 9: Guest checkout (no account needed) <span class="pass">PASS</span></h3>
+      <div class="proves"><b>What this proves:</b> a shopper who isn't logged in can check out as a <b>guest</b> with just a name and email, choosing in-store pickup or shipping. A "Log in instead" link is offered but not required, and the site never asks for card details.</div>
+    </div>
+  </section>
+
+  <section class="check" id="c10">
+    <figure>
+      <img src="app_check_images/10_guest_order_confirmation.jpg" alt="Order placed: Boola Boola, thank you, Guest! Your order number is CC-33FB9E. Guest checkout">
+      <figcaption>Real guest order placed during Problem 9 testing.</figcaption>
+    </figure>
+    <div>
+      <h3>Check 10: Guest order is placed and confirmed <span class="pass">PASS</span></h3>
+      <div class="proves"><b>What this proves:</b> the guest checkout completes with order number <b>CC-33FB9E</b> and "(guest checkout)". In the database the order is saved with <code>user_id</code> NULL, and the hoodie's L stock went down from 8 to 5.</div>
+    </div>
+  </section>
+
+  <section class="check" id="c11">
+    <figure>
+      <img src="app_check_images/11_bark_on_logo_click.jpg" alt="Sound check panel showing bark and growl waveforms and the log entry: BARK (2 woofs) after clicking the logo">
+      <figcaption>Clicked the Handsome Dan logo on the checkout page, which went to the home page. The pink panel is a test-only overlay.</figcaption>
+    </figure>
+    <div>
+      <h3>Check 11: Handsome Dan barks when the logo is clicked <span class="pass">PASS</span></h3>
+      <div class="proves"><b>What this proves:</b> a screenshot can't play sound, so a test overlay logged every sound the site played. Clicking the logo took the shopper home and logged <b>"🐶 BARK (2 woofs)"</b>, and the bark waveform shows the two separate woofs.</div>
+      <p class="detail">The sounds are generated in the browser (Web Audio API), only play after a click, and can be muted with the 🔊 button in the nav bar.</p>
+    </div>
+  </section>
+
+  <section class="check" id="c12">
+    <figure>
+      <img src="app_check_images/12_growl_on_remove.jpg" alt="Cart now shows only the hoodie, $68.00; the sound check log shows GROWL after BARK">
+      <figcaption>Clicked "Remove" on the T-shirt in the cart.</figcaption>
+    </figure>
+    <div>
+      <h3>Check 12: Handsome Dan growls when an item is removed <span class="pass">PASS</span></h3>
+      <div class="proves"><b>What this proves:</b> clicking <b>Remove</b> played the <b>growl</b>, logged as "🐶 GROWL (low rumble + 'rrr' wobble)" with its long, rumbling waveform. The T-shirt left the cart, so the badge is 1 and the subtotal is $68.00.</div>
+    </div>
+  </section>
+
+  <section class="check" id="c13">
+    <figure>
+      <img src="app_check_images/13_picked_for_you.jpg" alt="Picked for you: Because you've been looking at hoodies, like the Crew Left Chest Hoodie, with a Sailing Left Chest Hoodie card">
+      <figcaption>Home page, after browsing several hoodie pages.</figcaption>
+    </figure>
+    <div>
+      <h3>Check 13: Click history drives "Picked for you" <span class="pass">PASS</span></h3>
+      <div class="proves"><b>What this proves:</b> the site saved every product the shopper opened (the <code>product_views</code> table) and now shows <b>"Picked for you · Because you've been looking at hoodies"</b>, with matching in-stock hoodies the shopper hasn't opened yet.</div>
+      <p class="detail">While testing, the label first read "Because you viewed 2025 Yale vs Harvard T Shirt" (the most recent click), which didn't match the hoodie picks. It was fixed to name the shopper's main interest.</p>
+    </div>
+  </section>
+
+  <section class="check" id="c14">
+    <figure>
+      <img src="app_check_images/14_restock_purchase_list.jpg" alt="Staff view of the restock purchase list: 261 sizes to restock, 145 sold out, 6122 units; Basic Hoodie Big Yale L stock 5 reorder 23 highlighted">
+      <figcaption>Live data from the staff-only endpoint <code>GET /api/staff/purchase-list</code>, shown as a table.</figcaption>
+    </figure>
+    <div>
+      <h3>Check 14: Low stock goes on the restock purchase list <span class="pass">PASS</span></h3>
+      <div class="proves"><b>What this proves:</b> after the guest order left the Basic Hoodie Big Yale at 5 in size L, the backend automatically added it to the business's <b>purchase list</b> with a reorder of <b>23</b> (back to 25, plus the 3 just sold). The list currently has <b>261 sizes / 6,122 units</b> to restock.</div>
+      <p class="detail">This list is internal: the endpoint requires a staff key and isn't linked from the public site. It can also be exported to <code>output/purchase_list.csv</code>.</p>
+    </div>
+  </section>
+
+  <div class="note">
+    <b>Automated checks run alongside these screenshots:</b> <code>scripts/check_agent.py</code> 22/22 (chatbot honesty, search results, memory, recommendations) · <code>scripts/check_shop.py</code> 15/15 (cart, guest checkout, no overselling, restocking, recommendations) · <code>scripts/check_auth.py</code> 16/16 (accounts and password hashing).
+  </div>
+</main>
+<footer>Campus Customs · Mgmt 409 Homework 4 · App check (Problem 11)</footer>
+</body>
+</html>

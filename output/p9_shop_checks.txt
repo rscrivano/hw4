@@ -1,0 +1,28 @@
+Test item: benjamin-franklin-t-shirt size XS (stock 8); second item: 2025-yale-vs-harvard-t-shirt XS
+PASS quote flags quantity above stock
+PASS quote prices from the catalogue ($96.00)
+PASS no payment method -> order refused (402)
+PASS payment method that doesn't fit pickup -> refused (402)
+PASS guest without phone number -> refused (400)
+PASS guest checkout rejects an invalid email
+PASS refused orders saved nothing and took no stock
+PASS guest order placed with transaction number CC-261013-PR3BGA
+PASS guest order saved with name, email, phone and payment method: (None, 'guest.tester@example.com', '2035550142', 'cash_at_pickup')
+PASS order trackable by number + email (placed, Cash at pickup)
+PASS order trackable by number + phone (any format)
+PASS tracking refuses the wrong email (no browsing other orders)
+PASS inventory decremented 8 -> 5
+PASS low stock flagged on purchase list: (5, 23, 'low stock (5 left)')
+PASS reorder qty = par 25 - stock 5 + 3 sold in last 30 days = 23
+PASS checkout refuses to oversell (409)
+PASS logged-in order linked to the account
+PASS 3 product views recorded for the visitor
+PASS recommendations follow the clicks: Because you've been looking at hoodies, like the Crew Left Chest Hoodie -> ['Hoodies', 'Hoodies', 'Hoodies', 'Hoodies']
+PASS no history -> popular items
+PASS inventory audit runs at startup and every 3600s (latest: startup, 612 sizes, 261 flagged)
+PASS audit trail holds agent tool calls and inventory checks (10 entries, never wiped)
+PASS purchase list needs the staff key
+PASS staff sees the purchase list (262 lines, 6145 units to reorder)
+Cleanup: stock restored, test orders/views/purchase-list lines removed.
+
+24/24 checks passed

@@ -1,0 +1,18 @@
+PASS new hash has format pbkdf2_sha256$salt$64-hex
+PASS re-hashing with stored salt verifies
+PASS one wrong character fails
+PASS same password -> different salt/hash
+PASS seed user logs in (200)
+PASS login response never contains password_hash
+PASS token from login resolves /api/auth/me
+PASS seed user wrong password rejected (401)
+PASS unknown email rejected with same error (401)
+PASS tampered token rejected (401)
+PASS mismatched confirmation rejected (400)
+PASS password under 8 chars rejected (400)
+PASS new account created (201)
+PASS duplicate email (any case) rejected (409)
+PASS new account logs in (200)
+PASS DB row stores only the hash, not the password
+
+16/16 checks passed

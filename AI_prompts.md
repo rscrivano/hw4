@@ -728,7 +728,8 @@ _(I attached two images: the expected `hw4/` file layout, and the local-only `da
 > yes do option 1 and make note of how he can easily access to the site to see it by providing the link to it in the package
 
 **What the AI did:**
-- **Checked the repo was safe to publish with GitHub Pages.** No `{{`/`{%` template text in any Markdown or HTML file, so it builds as-is with no extra files that would change the expected layout.
+- **Checked the repo was safe to publish with GitHub Pages.** No Liquid template tags (double curly braces, or curly-brace-percent) appeared in any Markdown or HTML file, so it builds as-is with no extra files that would change the expected layout.
+- **Hit one snag.** That log line originally typed the template characters themselves, which made the Pages build fail. It was reworded to describe them in words, and the build passed.
 - **Added a "👀 See it online (no setup needed)" section at the top of `README.md`,** with links to:
   - the **live App check page**;
   - the project home page;
